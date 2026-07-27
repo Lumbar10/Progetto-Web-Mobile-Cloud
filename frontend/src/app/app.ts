@@ -19,6 +19,8 @@ export class App {
     quantita: 0
   };
 
+  prodottoInModifica: any = null;
+
   private refresh$ = new BehaviorSubject<void>(undefined);
 
   constructor(private prodottoService: ProdottoService) {
@@ -27,19 +29,27 @@ export class App {
     );
   }
 
-  salvaProdotto() {
-    this.prodottoService.addProdotto(this.nuovoProdotto).subscribe(() => {
-      // Dopo aver aggiunto il prodotto, aggiorna la lista dei prodotti
-      this.refresh$.next();
-      // Resetta il form del nuovo prodotto
-      this.nuovoProdotto = { nome: '', descrizione: '', quantita: 0 };
-    });
-  }
-
   eliminaProdotto(id: number) {
     this.prodottoService.deleteProdotto(id).subscribe(() => {
       // Dopo aver eliminato il prodotto, aggiorna la lista dei prodotti
       this.refresh$.next();
     });
+  }
+
+  selezionaPerModifica(p: any) {
+    this.prodottoInModifica = p;
+    this.nuovoProdotto = { nome: p.nome, descrizione: p.descrizione, quantita: p.quantita };
+  }
+
+  salvaProdotto() {
+    if (this.prodottoInModifica) {
+      this.prodottoService.updateProdotto(this.prodottoInModifica.id, this.nuovoProdotto).subscribe(() => {
+        // Dopo aver aggiornato il prodotto, aggiorna la lista dei prodotti
+        this.refresh$.next();
+        // Resetta il form e la variabile di modifica
+        this.nuovoProdotto = { nome: '', descrizione: '', quantita: 0 };
+        this.prodottoInModifica = null;
+      });
+    }
   }
 }

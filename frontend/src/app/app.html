@@ -2,15 +2,18 @@
   <h1 class="mb-4">Lista Prodotti</h1>
 
   <!-- Lista Prodotti -->
-  <ul class="list-group mb-4">
-    <li *ngFor="let p of prodotti$ | async" class="list-group-item d-flex justify-content-between align-items-center">
-      <div>
-        <strong>{{ p.nome }}</strong> - {{ p.descrizione }} 
-        <span class="badge bg-secondary ms-2">Quantità: {{ p.quantita }}</span>
-      </div>
+<ul class="list-group mb-4">
+  <li *ngFor="let p of prodotti$ | async" class="list-group-item d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center flex-wrap gap-2">
+      <span><strong>{{ p.nome }}</strong> - {{ p.descrizione }}</span>
+      <span class="badge bg-secondary">Quantità: {{ p.quantita }}</span>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-warning btn-sm" (click)="selezionaPerModifica(p)">Modifica</button>
       <button class="btn btn-danger btn-sm" (click)="eliminaProdotto(p.id)">Elimina</button>
-    </li>
-  </ul>
+    </div>
+  </li>
+</ul>
 
   <!-- Form Aggiunta -->
   <div class="card p-4 shadow-sm">
