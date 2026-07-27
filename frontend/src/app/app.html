@@ -1,0 +1,6 @@
+<h1>Lista Prodotti</h1>
+<ul>
+  <li *ngFor="let p of prodotti$ | async">
+    <strong>{{ p.nome }}</strong> - {{ p.descrizione }} (Quantità: {{ p.quantita }})
+  </li>
+</ul>
