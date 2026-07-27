@@ -19,6 +19,8 @@ export class App {
     quantita: 0
   };
 
+  errorMessage: string | null = null;
+
   termineRicerca = '';
   private searchSubject = new BehaviorSubject<string>('');
 
@@ -51,15 +53,29 @@ export class App {
   }
 
   salvaProdotto() {
+    if (!this.nuovoProdotto.nome.trim() || !this.nuovoProdotto.descrizione.trim() || this.nuovoProdotto.quantita < 0) {
+      this.errorMessage = 'Compila tutti i campi correttamente e inserisci una quantità valida.';
+      return;
+    }
+
+    this.errorMessage = null;
+
     if (this.prodottoInModifica) {
       this.prodottoService.updateProdotto(this.prodottoInModifica.id, this.nuovoProdotto).subscribe(() => {
-        // Dopo aver aggiornato il prodotto, aggiorna la lista dei prodotti
         this.refresh$.next();
-        // Resetta il form e la variabile di modifica
-        this.nuovoProdotto = { nome: '', descrizione: '', quantita: 0 };
-        this.prodottoInModifica = null;
+        this.resetForm();
+      });
+    } else {
+      this.prodottoService.addProdotto(this.nuovoProdotto).subscribe(() => {
+        this.refresh$.next();
+        this.resetForm();
       });
     }
+  }
+
+  resetForm() {
+    this.nuovoProdotto = { nome: '', descrizione: '', quantita: 0 };
+    this.prodottoInModifica = null;
   }
 
   cercaProdotti(termine: string) {

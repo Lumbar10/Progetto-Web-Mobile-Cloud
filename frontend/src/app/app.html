@@ -24,16 +24,20 @@
   <div class="card p-4 shadow-sm">
     <h3 class="mb-3">Aggiungi Prodotto</h3>
     <div class="mb-3">
-      <input type="text" class="form-control" placeholder="Nome" [(ngModel)]="nuovoProdotto.nome" name="nome">
+      <input type="text" class="form-control" placeholder="Nome" [(ngModel)]="nuovoProdotto.nome" name="nome" required>
     </div>
     <div class="mb-3">
-      <input type="text" class="form-control" placeholder="Descrizione" [(ngModel)]="nuovoProdotto.descrizione"
-        name="descrizione">
+      <input type="text" class="form-control" placeholder="Descrizione" [(ngModel)]="nuovoProdotto.descrizione" name="descrizione" required>
     </div>
     <div class="mb-3">
-      <input type="number" class="form-control" placeholder="Quantità" [(ngModel)]="nuovoProdotto.quantita"
-        name="quantita">
+      <input type="number" class="form-control" placeholder="Quantità" [(ngModel)]="nuovoProdotto.quantita" name="quantita" required>
     </div>
     <button class="btn btn-success w-100" (click)="salvaProdotto()">Aggiungi Prodotto</button>
   </div>
+</div>
+
+<!-- Error Message -->
+<div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show shadow" role="alert">
+  <strong>Attenzione:</strong> {{ errorMessage }}
+  <button type="button" class="btn-close" (click)="errorMessage = null" aria-label="Close"></button>
 </div>
