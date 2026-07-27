@@ -4,3 +4,9 @@
     <strong>{{ p.nome }}</strong> - {{ p.descrizione }} (Quantità: {{ p.quantita }})
   </li>
 </ul>
+
+<input type="text" placeholder="Nome" [(ngModel)]="nuovoProdotto.nome">
+<input type="text" placeholder="Descrizione" [(ngModel)]="nuovoProdotto.descrizione">
+<input type="number" placeholder="Quantità" [(ngModel)]="nuovoProdotto.quantita">
+
+<button (click)="salvaProdotto()">Aggiungi Prodotto</button>
