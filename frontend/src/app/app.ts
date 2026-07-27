@@ -35,4 +35,11 @@ export class App {
       this.nuovoProdotto = { nome: '', descrizione: '', quantita: 0 };
     });
   }
+
+  eliminaProdotto(id: number) {
+    this.prodottoService.deleteProdotto(id).subscribe(() => {
+      // Dopo aver eliminato il prodotto, aggiorna la lista dei prodotti
+      this.refresh$.next();
+    });
+  }
 }
