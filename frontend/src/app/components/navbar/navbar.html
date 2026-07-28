@@ -9,7 +9,7 @@
         <span class="navbar-text me-2 text-white">
           Ciao, {{ authService.getUserName() }}
         </span>
-        <button class="btn btn-outline-light btn-sm" (click)="onLogout()">Logout</button>
+        <button class="btn btn-outline-danger" (click)="onLogout()">Logout</button>
       } @else {
         <a class="nav-link" routerLink="/login">Login</a>
       }

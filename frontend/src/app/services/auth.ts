@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,17 +10,24 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  login(credentials: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, credentials);
+  login(credentials: any) {
+    return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
+      tap(user => {
+        // Estrae la password ed elimina il campo dall'oggetto salvato nel browser
+        const { password, ...userWithoutPassword } = user;
+        localStorage.setItem('user', JSON.stringify(userWithoutPassword));
+      })
+    );
   }
 
   register(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, data);
   }
 
-  salvaUtente(user: any): void {
-    localStorage.setItem('user', JSON.stringify(user));
-  }
+salvaUtente(utente: any): void {
+  const { password, ...userClean } = utente;
+  localStorage.setItem('user', JSON.stringify(userClean));
+}
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('user');
@@ -36,4 +43,5 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('user');
   }
+  
 }

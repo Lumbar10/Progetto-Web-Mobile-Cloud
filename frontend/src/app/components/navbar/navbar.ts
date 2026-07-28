@@ -17,7 +17,7 @@ export class NavbarComponent {
   ) {}
 
   onLogout(): void {
-    this.authService.logout();
+    localStorage.removeItem('user');
     this.router.navigate(['/login']);
   }
 }
