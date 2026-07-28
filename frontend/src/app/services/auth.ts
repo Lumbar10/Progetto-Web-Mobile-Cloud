@@ -24,10 +24,10 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/register`, data);
   }
 
-salvaUtente(utente: any): void {
-  const { password, ...userClean } = utente;
-  localStorage.setItem('user', JSON.stringify(userClean));
-}
+  salvaUtente(utente: any): void {
+    const { password, ...userClean } = utente;
+    localStorage.setItem('user', JSON.stringify(userClean));
+  }
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('user');
@@ -43,5 +43,10 @@ salvaUtente(utente: any): void {
   logout(): void {
     localStorage.removeItem('user');
   }
-  
+
+  isAdmin(): boolean {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    return user?.ruolo === 'ADMIN';
+  }
+
 }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ProdottoService } from '../../services/prodotto';
 import { Observable, BehaviorSubject, switchMap, map, debounceTime, combineLatest, distinctUntilChanged } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-prodotti',
@@ -29,7 +30,7 @@ export class ProdottiComponent {
 
   private refresh$ = new BehaviorSubject<void>(undefined);
 
-  constructor(private prodottoService: ProdottoService) {
+  constructor(private prodottoService: ProdottoService, public authService: AuthService) {
     this.prodotti$ = combineLatest([
       this.refresh$,
       this.searchSubject.pipe(debounceTime(300), distinctUntilChanged())
@@ -40,6 +41,7 @@ export class ProdottiComponent {
       ))
     );
   }
+  
 
   eliminaProdotto(id: number) {
     this.prodottoService.deleteProdotto(id).subscribe(() => {
