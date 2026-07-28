@@ -1,0 +1,18 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/prodotti">Gestionale</a>
+    <div class="navbar-nav ms-auto align-items-center gap-2">
+      <a class="nav-link" routerLink="/prodotti">Prodotti</a>
+      <a class="nav-link" routerLink="/profilo">Profilo</a>
+
+      @if (authService.isLoggedIn()) {
+        <span class="navbar-text me-2 text-white">
+          Ciao, {{ authService.getUserName() }}
+        </span>
+        <button class="btn btn-outline-light btn-sm" (click)="onLogout()">Logout</button>
+      } @else {
+        <a class="nav-link" routerLink="/login">Login</a>
+      }
+    </div>
+  </div>
+</nav>
