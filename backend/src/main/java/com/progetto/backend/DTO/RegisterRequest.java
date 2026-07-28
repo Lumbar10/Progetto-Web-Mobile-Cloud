@@ -1,13 +1,13 @@
 package com.progetto.backend.dto;
 
-public class LoginRequest {
+public class RegisterRequest {
 
     private String email;
     private String password;
 
-    public LoginRequest() {}
+    public RegisterRequest() {}
 
-    public LoginRequest(String email, String password) {
+    public RegisterRequest(String email, String password) {
         this.email = email;
         this.password = password;
     }
