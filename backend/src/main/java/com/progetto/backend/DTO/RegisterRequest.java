@@ -1,7 +1,12 @@
 package com.progetto.backend.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 public class RegisterRequest {
 
+    @NotBlank(message = "L'email non può essere vuota")
+    @Email(message = "Formato email non valido")
     private String email;
     private String password;
 

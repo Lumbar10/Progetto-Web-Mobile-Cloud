@@ -1,20 +1,31 @@
-<div class="card p-4 mx-auto mt-5" style="max-width: 400px;">
-  <h2>Registrati</h2>
-  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
-
-  <form (ngSubmit)="onRegister()">
-    <div class="mb-3">
-      <label class="form-label">Email</label>
-      <input type="email" class="form-control" [(ngModel)]="registerData.email" name="email" required>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Password</label>
-      <input type="password" class="form-control" [(ngModel)]="registerData.password" name="password" required>
-    </div>
-    <button type="submit" class="btn btn-primary w-100">Crea Account</button>
-  </form>
-
-  <p class="mt-3 text-center">
-    Hai già un account? <a routerLink="/login">Accedi qui</a>
-  </p>
+<div *ngIf="messaggio" class="alert text-center fw-bold" [ngClass]="isErrore ? 'alert-danger' : 'alert-success'">
+  {{ messaggio }}
 </div>
+
+<form (ngSubmit)="registrati()" #registerForm="ngForm">
+  
+  <div class="mb-3">
+    <label class="form-label">Email</label>
+    <!-- Rimosso "pattern", aggiunto "email" -->
+    <input type="email" 
+           class="form-control" 
+           [(ngModel)]="registerData.email" 
+           name="email" 
+           email
+           required 
+           #emailInput="ngModel">
+           
+    <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="text-danger mt-1 small">
+      Inserisci un'email valida.
+    </div>
+  </div>
+  
+  <div class="mb-4">
+    <label class="form-label">Password</label>
+    <input type="password" class="form-control" [(ngModel)]="registerData.password" name="password" required>
+  </div>
+  
+  <button type="submit" class="btn btn-primary w-100 fw-bold" [disabled]="registerForm.invalid">
+    Registrati
+  </button>
+</form>

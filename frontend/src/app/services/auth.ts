@@ -11,7 +11,7 @@ export class AuthService {
   // Stato dell'utente salvato in memoria e sincronizzato con localStorage (solo info profilo, NON il token)
   private currentUser = signal<any>(JSON.parse(localStorage.getItem('utente') || 'null'));
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   register(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, data);
@@ -48,5 +48,10 @@ export class AuthService {
   isAdmin(): boolean {
     const user = this.currentUser();
     return user ? (user.ruolo === 'ADMIN' || user.role === 'ADMIN') : false;
+  }
+
+
+  changePassword(data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/change-password`, data, { withCredentials: true });
   }
 }

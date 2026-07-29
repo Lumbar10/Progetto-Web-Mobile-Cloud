@@ -1,5 +1,6 @@
 package com.progetto.backend.service;
 
+import com.progetto.backend.dto.ChangePasswordRequest;
 import com.progetto.backend.dto.LoginRequest;
 import com.progetto.backend.dto.RegisterRequest;
 import com.progetto.backend.model.Utente;
@@ -39,5 +40,18 @@ public class AuthService {
         }
 
         return utente;
+    }
+
+    
+    public void cambiaPassword(String email, ChangePasswordRequest request) {
+        Utente utente = utenteRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Utente non trovato"));
+
+        if (!passwordEncoder.matches(request.getOldPassword(), utente.getPassword())) {
+            throw new RuntimeException("La vecchia password non è corretta");
+        }
+
+        utente.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        utenteRepository.save(utente);
     }
 }

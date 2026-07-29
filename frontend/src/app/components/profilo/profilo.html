@@ -1,1 +1,23 @@
-<p>profilo works!</p>
+<!-- Alert per messaggi di successo o errore (ora in grassetto e centrato) -->
+<div *ngIf="messaggio" class="alert text-center fw-bold" [ngClass]="isErrore ? 'alert-danger' : 'alert-success'">
+  {{ messaggio }}
+</div>
+
+<form (ngSubmit)="cambiaPassword()">
+  <div class="mb-3">
+    <label class="form-label">Vecchia Password</label>
+    <input type="password" class="form-control" [(ngModel)]="passwordData.oldPassword" name="oldPassword" required>
+  </div>
+  
+  <div class="mb-3">
+    <label class="form-label">Nuova Password</label>
+    <input type="password" class="form-control" [(ngModel)]="passwordData.newPassword" name="newPassword" required>
+  </div>
+  
+  <div class="mb-4">
+    <label class="form-label">Conferma Nuova Password</label>
+    <input type="password" class="form-control" [(ngModel)]="passwordData.confirmPassword" name="confirmPassword" required>
+  </div>
+  
+  <button type="submit" class="btn btn-warning w-100 fw-bold">Aggiorna Password</button>
+</form>
