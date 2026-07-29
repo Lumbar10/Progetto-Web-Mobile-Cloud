@@ -1,10 +1,17 @@
 package com.progetto.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "utenti")
-public class Utente {
+public class Utente implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,7 +20,7 @@ public class Utente {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     private String ruolo;
@@ -25,6 +32,43 @@ public class Utente {
         this.email = email;
         this.password = password;
     }
+
+    // --- Metodi di UserDetails ---
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (ruolo == null) {
+            return List.of();
+        }
+        return List.of(new SimpleGrantedAuthority("ROLE_" + ruolo));
+    }
+
+    @Override
+    public String getUsername() {
+        return email; 
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    // --- Getter e Setter ---
 
     public Long getId() {
         return id;
@@ -42,6 +86,7 @@ public class Utente {
         this.email = email;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
