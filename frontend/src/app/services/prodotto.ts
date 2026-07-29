@@ -8,22 +8,21 @@ import { Observable } from 'rxjs';
 export class ProdottoService {
   private apiUrl = 'http://localhost:8080/api/prodotti';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getProdotti(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(this.apiUrl, { withCredentials: true });
   }
 
-  addProdotto(prodotto: any) {
-    return this.http.post('http://localhost:8080/api/prodotti', prodotto);
+  addProdotto(prodotto: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, prodotto, { withCredentials: true });
   }
 
-  deleteProdotto(id: number) {
-    return this.http.delete(`http://localhost:8080/api/prodotti/${id}`);
+  updateProdotto(id: number, prodotto: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, prodotto, { withCredentials: true });
   }
 
-  updateProdotto(id: number, prodotto: any) {
-    return this.http.put(`http://localhost:8080/api/prodotti/${id}`, prodotto);
+  deleteProdotto(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`, { withCredentials: true });
   }
-
 }

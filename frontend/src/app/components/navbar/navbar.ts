@@ -14,10 +14,13 @@ export class NavbarComponent {
   constructor(
     public authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
-  onLogout(): void {
-    localStorage.removeItem('user');
-    this.router.navigate(['/login']);
+  onLogout() {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/login']); // Reindirizza al login
+      }
+    });
   }
 }
