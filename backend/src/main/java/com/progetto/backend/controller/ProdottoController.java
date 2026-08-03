@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/prodotti")
-@CrossOrigin(origins = "http://localhost:4200")
 public class ProdottoController {
 
     @Autowired
